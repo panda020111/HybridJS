@@ -1,14 +1,17 @@
 <template>
   <div id="app">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-    <button @click="handleClick">getDeviceInfo</button>
-    <button @click="handleClickInfo">alertInfo</button>
+    <HelloWorld msg="Web容器的测试页面"/>
+    <div class="wrapper">
+      <div class="btn" @click="handleClick">getDeviceInfo</div>
+      <div class="btn" @click="handleClickInfo">alertInfo</div>
+    </div>
+    
   </div>
 </template>
 
 <script>
 import HelloWorld from './components/HelloWorld.vue'
-import exec from './hybrid/index.js'
+import hdp from './hybrid/hdp.js'
 
 export default {
   name: 'app',
@@ -18,19 +21,23 @@ export default {
   methods: {
     handleClick() {
       console.log('hello in click')
-      exec(function (data) {
-        console.log(JSON.stringify(data))
-      }, function () {
-        console.log('error message')
-      }, 'hybrid.device', 'getDeviceInfo', ["hello world"])
+      hdp.exec('hybrid.device', 'getDeviceInfo')
+          .then((data) => {
+            console.log('device data ==> ', data)
+          })
+          .catch((err) => {
+            console.log('device err ==> ', err)
+          })
     },
     handleClickInfo () {
       console.log('in click info')
-      exec(function (data) {
-        console.log(JSON.stringify(data))
-      }, function (err) {
-        console.log(err)
-      }, 'hybrid.notification', 'alert', ["title", "Hello world alert"])
+      hdp.exec('hybrid.notification', 'alert', 'title', 'Hello this is alert')
+          .then((data) => {
+            console.log(data)
+          })
+          .catch((err) => {
+            console.log(err)
+          })
     }
   }
 }
@@ -44,5 +51,24 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 20px;
+  margin-right: 20px;
+  height: 40px;
+  width: 180px;
+  margin-bottom: 12px;
+  background-color: #ff5777;
 }
 </style>
