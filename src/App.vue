@@ -4,6 +4,7 @@
     <div class="wrapper">
       <div class="btn" @click="handleClick">getDeviceInfo</div>
       <div class="btn" @click="handleClickInfo">alertInfo</div>
+      <div class="btn" @click="getAsyncDeviceInfo">getDeviceInfoAsync</div>
     </div>
     
   </div>
@@ -37,6 +38,15 @@ export default {
           })
           .catch((err) => {
             console.log(err)
+          })
+    },
+    getAsyncDeviceInfo () {
+      hdp.exec('hybrid.device', 'getDeviceInfoAsync')
+          .then((data) => {
+            console.log("hello in success callback" + JSON.stringify(data))
+          })
+          .catch((err) => {
+            console.log("hello in failed callback" + err)
           })
     }
   }

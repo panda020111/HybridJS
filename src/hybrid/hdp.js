@@ -1,7 +1,6 @@
 import exec from './exec.js'
 import Promise from './promise.js'
 
-window.console.log('promise', Promise)
 const hdp = {}
 
 hdp.isApp = function () {

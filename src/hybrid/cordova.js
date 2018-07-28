@@ -1,5 +1,5 @@
 /**
- * 
+ * cordova js
  */
 
 import channel from './channel.js'
@@ -107,6 +107,20 @@ const cordova = {
       windowEventHandlers[type].fire(evt)
     } else {
       window.dispatchEvent(evt)
+    }
+  },
+
+  callbackFromNative: function (callbackId, isSuccess, status, args) {
+    const callback = cordova.callbacks[callbackId];
+    window.console.log('hello callback from native' + callbackId);
+    if (callback) {
+      window.console.log('callback is exeist' + callbackId);
+
+      if (isSuccess) {
+        callback.success && callback.success.apply(null, args);
+      } else {
+        callback.fail && callback.fail.apply(null, args);
+      }
     }
   }
 }
